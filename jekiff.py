@@ -17,7 +17,19 @@ CLIENT_SECRET = "2f99d50dc29543db8b94a42fa7743e28"
 client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-st.header('Music Recommender System')
+
+# Définir la couleur de fond
+st.set_page_config(
+    page_title="JeKiff",
+    page_icon="🎵",
+    layout="wide",  # Vous pouvez ajuster la mise en page
+)
+
+
+# Utilisez st.image pour afficher votre logo
+st.image('logo.png', width=100, output_format='PNG')
+
+st.header('Music Recommender')
 
 # Load data (replace with your actual data)
 filtered_song2 = pd.read_csv('filtered_song2.csv')
