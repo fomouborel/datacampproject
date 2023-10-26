@@ -3,11 +3,29 @@ import pandas as pd
 import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-nltk.download('vader_lexicon')
-nltk.download('punkt')
-
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+
+# Définir la couleur de fond
+st.set_page_config(
+    page_title="JeKiff",
+    page_icon="🎵",
+    layout="wide",  # Vous pouvez ajuster la mise en page
+)
+
+st.sidebar.header('JEKIFF PRESENTATION')
+st.sidebar.image('logo.png', width=75, output_format='PNG')
+st.sidebar.subheader('JEKIFF is an recommandation application for music lovers '
+                     'it allow a diversity in the user playlist and the discover '
+                     'of new unpopular song similar to the user taste')
+
+st.sidebar.subheader('Enjoy our app')
+
+st.sidebar.markdown('''
+---
+Created with ❤️ by KASSOUM FOFANA & STEVE BOREL FOMOU & CHRISTIAN MBIALEU
+''')
+
 
 # Your Spotify client ID and client secret here
 CLIENT_ID = "19830aea1d0a4f9caa8c2278182f479d"
@@ -18,18 +36,11 @@ client_credentials_manager = SpotifyClientCredentials(client_id=CLIENT_ID, clien
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
-# Définir la couleur de fond
-st.set_page_config(
-    page_title="JeKiff",
-    page_icon="🎵",
-    layout="wide",  # Vous pouvez ajuster la mise en page
-)
-
 
 # Utilisez st.image pour afficher votre logo
 st.image('logo.png', width=100, output_format='PNG')
 
-st.header('Music Recommender')
+st.header('Enjoy music')
 
 # Load data (replace with your actual data)
 filtered_song2 = pd.read_csv('filtered_song2.csv')
@@ -85,7 +96,7 @@ def recommendation(song_df1, song_df2, song_df3, num_recommendations=3):
 selected_songs = st.multiselect("Select three songs:", filtered_song2['Name'].values)
 
 if len(selected_songs) == 3:
-    if st.button('Show Recommendation'):
+    if st.button('Click here 🎵'):
         selected_song1, selected_song2, selected_song3 = selected_songs
         recommended_songs = recommendation(selected_song1, selected_song2, selected_song3)
 
@@ -97,6 +108,8 @@ if len(selected_songs) == 3:
                 if i + j < len(recommended_songs):
                     song_name = recommended_songs[i + j]
                     artist_name = filtered_song2[filtered_song2['Name'] == song_name]['Artist'].values[0]
+                    song= artist_name + ':' + song_name
                     with row[j]:
-                        st.text(song_name)
+                        st.text(song)
                         st.image(get_song_album_cover_url(song_name, artist_name))
+                        
